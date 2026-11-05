@@ -1,111 +1,58 @@
-# 🎧 Model Card: Music Recommender Simulation
+# 🎧 Model Card — Music Recommender Simulation
 
-## 1. Model Name  
+**Author:** Sai Cherukuru  
+**Contact:** chsds999@gmail.com
 
-Give your model a short, descriptive name.  
-Example: **VibeFinder 1.0**  
+## 1. Model Name
 
----
+VibeFinder 1.0
 
-## 2. Intended Use  
+## 2. Intended Use
 
-Describe what your recommender is designed to do and who it is for. 
+VibeFinder is a classroom simulator that recommends five songs based on a listener’s preferred genre, mood, and energy. It assumes the listener can describe what they want with one genre, one mood, and one energy level from 0 to 1. A real streaming service would need a larger catalog and feedback from listeners to evaluate its recommendations.
 
-Prompts:  
+## 3. How the Model Works
 
-- What kind of recommendations does it generate  
-- What assumptions does it make about the user  
-- Is this for real users or classroom exploration  
+I replaced the starter placeholders for loading, scoring, and ranking with a working command-line recommender. It reads the catalog and compares each song with the listener’s preferences.
 
----
+An exact genre match earns two points, and an exact mood match earns one. A song can earn up to one more point based on how close its energy is to the listener’s target. The program sorts the songs by total score and shows the top five with an explanation of how each earned its points.
 
-## 3. How the Model Works  
+## 4. Data
 
-Explain your scoring approach in simple language.  
+The catalog has 18 songs. I kept the 10 starter tracks and added eight fictional tracks to expand the range of genres and moods. The catalog includes genres such as pop, lofi, rock, folk, and EDM, and moods such as happy, chill, intense, and sad.
 
-Prompts:  
+The file also stores tempo, valence, danceability, and acousticness. The recommender scores songs using genre, mood, and energy. The catalog has no listener ratings or information about lyrics or language.
 
-- What features of each song are used (genre, energy, mood, etc.)  
-- What user preferences are considered  
-- How does the model turn those into a score  
-- What changes did you make from the starter logic  
+## 5. Strengths
 
-Avoid code here. Pretend you are explaining the idea to a friend who does not program.
+The recommender works well when the catalog contains songs that match the requested genre, mood, and energy. For example, Midnight Coding and Library Rain both matched chill lofi. Midnight Coding ranked first because its energy was closer to the target of 0.40. The point breakdown made it easy to see why one song ranked above the other.
 
----
+## 6. Limitations and Bias
 
-## 4. Data  
+The baseline gives an exact genre match twice as many points as a mood match. Gym Hero ranked above Rooftop Lights for happy pop, even though Rooftop Lights matched the happy mood and was closer to the target energy. The system treats pop and indie pop as separate labels. With only 18 songs and uneven genre coverage, that preference for exact matches can narrow what listeners discover.
 
-Describe the dataset the model uses.  
+## 7. Evaluation
 
-Prompts:  
+I ran the CLI with three profiles and checked the top five songs and their explanations. Both starter tests passed. I judged whether the rankings fit the profiles I entered. Measuring how much listeners actually liked the results would require listener feedback.
 
-- How many songs are in the catalog  
-- What genres or moods are represented  
-- Did you add or remove data  
-- Are there parts of musical taste missing in the dataset  
+- **High-Energy Pop and Chill Lofi.** Sunrise City led the pop list, while Midnight Coding led the lofi list. Both matched their profile’s genre and mood, but each was close to a different energy target.
+- **High-Energy Pop and Intense Rock.** Gym Hero ranked second in both. Its pop genre helped in the first list, while its intense mood and high energy helped in the second.
+- **Chill Lofi and Intense Rock.** Their top five songs did not overlap. The lofi list favored mellow songs, while the rock list included high-energy punk and EDM tracks.
 
----
+I also halved the genre bonus from two points to one and doubled the maximum energy score from one point to two. The mood bonus stayed at one point. Rooftop Lights moved from third to second for High-Energy Pop, passing Gym Hero. The Chill Lofi and Intense Rock lists kept the same order. For a happy-pop playlist, the new order better reflects the requested mood and energy when an exact pop match matters less.
 
-## 5. Strengths  
+## 8. Future Work
 
-Where does your system seem to work well  
+- Let listeners select multiple genres or give partial credit to
+  related genres such as pop and indie pop.
+- Add a discovery pick that matches the requested mood and energy
+  from a different genre.
+- Collect listener ratings and compare them with the rankings to
+  see which scoring weights fit people’s preferences.
 
-Prompts:  
+## 9. Personal Reflection
 
-- User types for which it gives reasonable results  
-- Any patterns you think your scoring captures correctly  
-- Cases where the recommendations matched your intuition  
+I was surprised that Gym Hero ranked second for two different profiles. The explanations showed that one song can fit different listeners for different reasons. I also saw how changing the weights could move a song up the list even when the catalog and the profile stayed the same.
 
----
-
-## 6. Limitations and Bias 
-
-Where the system struggles or behaves unfairly. 
-
-Prompts:  
-
-- Features it does not consider  
-- Genres or moods that are underrepresented  
-- Cases where the system overfits to one preference  
-- Ways the scoring might unintentionally favor some users  
-
----
-
-## 7. Evaluation  
-
-How you checked whether the recommender behaved as expected. 
-
-Prompts:  
-
-- Which user profiles you tested  
-- What you looked for in the recommendations  
-- What surprised you  
-- Any simple tests or comparisons you ran  
-
-No need for numeric metrics unless you created some.
-
----
-
-## 8. Future Work  
-
-Ideas for how you would improve the model next.  
-
-Prompts:  
-
-- Additional features or preferences  
-- Better ways to explain recommendations  
-- Improving diversity among the top results  
-- Handling more complex user tastes  
-
----
-
-## 9. Personal Reflection  
-
-A few sentences about your experience.  
-
-Prompts:  
-
-- What you learned about recommender systems  
-- Something unexpected or interesting you discovered  
-- How this changed the way you think about music recommendation apps  
+AI helped me brainstorm songs and work through the scoring math. I
+checked the calculations against the terminal output. The project made me pay more attention to what music apps might be prioritizing when they recommend a song, especially when the result fits one part of my taste better than another.
